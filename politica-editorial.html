@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política editorial — OncoBridge</title>
+  <meta name="description" content="Política editorial de OncoBridge: acceso abierto, revisión por pares, ética en publicación, licencia CC BY 4.0 y archivo permanente en Zenodo.">
+  <meta name="citation_journal_title" content="OncoBridge">
+  <meta property="og:title" content="Política editorial — OncoBridge">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- NAVEGACIÓN -->
+<nav class="nav">
+  <div class="container">
+    <a class="nav-logo" href="index.html">
+      <img src="assets/logo.png" alt="OncoBridge"
+           onerror="this.style.display='none'; document.getElementById('nav-logo-fallback').style.display='block'">
+      <span id="nav-logo-fallback" class="nav-logo-text" style="display:none">Onco<span>Bridge</span></span>
+    </a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menú">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html#articulos">Artículos</a></li>
+      <li><a href="index.html#secciones">Secciones</a></li>
+      <li><a href="para-autores.html">Para autores</a></li>
+      <li><a href="comite-editorial.html">Comité editorial</a></li>
+      <li><a href="para-autores.html#envio" class="nav-cta">Enviar manuscrito</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO PEQUEÑO -->
+<section class="hero-sm">
+  <div class="container">
+    <div class="hero-eyebrow" style="margin-bottom:16px">Transparencia editorial</div>
+    <h1>Política editorial</h1>
+    <p>OncoBridge opera bajo los más altos estándares de integridad científica. Esta página describe nuestros principios, compromisos y procedimientos editoriales.</p>
+  </div>
+</section>
+
+<!-- CONTENIDO -->
+<section class="section">
+  <div class="container">
+    <div class="policy-grid">
+
+      <!-- NAV LATERAL -->
+      <aside>
+        <ul class="policy-nav" id="policy-nav">
+          <li class="active" onclick="goTo('acceso-abierto', event)">Acceso abierto</li>
+          <li onclick="goTo('revision-pares', event)">Revisión por pares</li>
+          <li onclick="goTo('etica', event)">Ética en publicación</li>
+          <li onclick="goTo('conflicto', event)">Conflicto de interés</li>
+          <li onclick="goTo('correcciones', event)">Correcciones y retractaciones</li>
+          <li onclick="goTo('plagio', event)">Política antiplagio</li>
+          <li onclick="goTo('licencia', event)">Licencia CC BY 4.0</li>
+          <li onclick="goTo('archivo', event)">Archivado y preservación</li>
+          <li onclick="goTo('apc', event)">APCs y financiamiento</li>
+        </ul>
+      </aside>
+
+      <!-- CONTENIDO -->
+      <main class="policy-content">
+
+        <section id="acceso-abierto">
+          <h3>Declaración de acceso abierto</h3>
+          <p>OncoBridge es una revista de <strong>acceso abierto completo (Gold Open Access)</strong>. Todos los artículos publicados son inmediatamente accesibles en línea sin restricciones de suscripción, registro o pago.</p>
+          <p>Creemos que el conocimiento científico oncológico debe estar disponible sin barreras para médicos, investigadores y pacientes en cualquier parte del mundo, y de manera especial en los sistemas de salud de México y Latinoamérica, donde el acceso a la literatura especializada es frecuentemente limitado.</p>
+          <p>La publicación en acceso abierto acelera la diseminación del conocimiento, aumenta la visibilidad de los autores y contribuye a una ciencia más equitativa y reproducible.</p>
+          <div class="info-box">
+            <p>🌐 OncoBridge cumple con la Declaración de Budapest de Acceso Abierto (BOAI) y las recomendaciones de acceso abierto de la OMS para literatura médica.</p>
+          </div>
+        </section>
+
+        <section id="revision-pares">
+          <h3>Proceso de revisión por pares</h3>
+          <p>OncoBridge utiliza un proceso de <strong>revisión por pares doble ciego (double-blind peer review)</strong>: ni los autores conocen la identidad de los revisores, ni los revisores conocen la identidad de los autores durante el proceso de evaluación.</p>
+          <p><strong>Etapas del proceso:</strong></p>
+          <ul>
+            <li><strong>Revisión editorial inicial (5 días hábiles):</strong> El editor de sección evalúa que el manuscrito cumpla los criterios mínimos de alcance, formato e integridad. Los manuscritos que no superen esta etapa se devuelven al autor con indicaciones específicas.</li>
+            <li><strong>Asignación de revisores (3–5 días):</strong> El editor selecciona dos revisores con expertise en el área. Se verifican posibles conflictos de interés.</li>
+            <li><strong>Revisión por pares (21 días):</strong> Los revisores emiten un dictamen estructurado: Aceptar / Revisar con cambios menores / Revisar con cambios mayores / Rechazar.</li>
+            <li><strong>Decisión editorial:</strong> El editor de sección consolida los dictámenes y toma la decisión final, comunicada al autor de correspondencia con justificación detallada.</li>
+          </ul>
+          <p>En casos de discrepancia significativa entre revisores, el editor puede solicitar una tercera revisión o tomar la decisión final con base en su criterio editorial fundamentado.</p>
+        </section>
+
+        <section id="etica">
+          <h3>Ética en la publicación</h3>
+          <p>OncoBridge adopta las directrices del <strong>Committee on Publication Ethics (COPE)</strong> y sigue sus recomendaciones para el manejo de situaciones de mala conducta científica.</p>
+          <p><strong>Requisitos éticos para toda investigación en humanos:</strong></p>
+          <ul>
+            <li>Aprobación de comité de ética institucional con número de registro</li>
+            <li>Consentimiento informado de los participantes (cuando aplica)</li>
+            <li>Conformidad con la Declaración de Helsinki (versión vigente)</li>
+            <li>Para ensayos clínicos: registro en ClinicalTrials.gov, REPEC u otro registro internacional reconocido</li>
+          </ul>
+          <p><strong>Criterios de autoría (ICMJE):</strong> Para ser reconocido como autor, una persona debe cumplir los cuatro criterios: (1) contribución sustancial al diseño o adquisición/análisis de datos, (2) redacción o revisión crítica del manuscrito, (3) aprobación de la versión final, y (4) responsabilidad sobre el trabajo.</p>
+          <p><strong>Mala conducta científica:</strong> OncoBridge investigará cualquier alegación de fabricación, falsificación o plagio de datos siguiendo el árbol de decisión de COPE. Las consecuencias pueden incluir rechazo del manuscrito, retractación de artículos publicados y notificación a las instituciones involucradas.</p>
+        </section>
+
+        <section id="conflicto">
+          <h3>Política de conflicto de interés</h3>
+          <p>Todos los actores del proceso editorial — autores, revisores y editores — deben declarar cualquier relación financiera, personal o institucional que pudiera influir, o percibirse que influye, en sus decisiones o contribuciones.</p>
+          <p><strong>Para autores:</strong> Deben completar el formulario de declaración de conflicto de interés al momento del envío. Esto incluye financiamiento de la investigación, honorarios, empleos, acciones o cualquier relación con organizaciones que tengan interés en los resultados del estudio.</p>
+          <p><strong>Para revisores:</strong> Deben declinar la revisión si existe cualquier relación con los autores o la institución emisora del manuscrito que pudiera comprometer su objetividad.</p>
+          <p><strong>Para editores:</strong> Los editores se excusarán del manejo de cualquier manuscrito en el que tengan conflicto de interés. En tales casos, el manuscrito será asignado a otro miembro del equipo editorial.</p>
+          <div class="info-box">
+            <p>📝 La declaración de conflicto de interés se publica al final de cada artículo, independientemente de si existe o no conflicto.</p>
+          </div>
+        </section>
+
+        <section id="correcciones">
+          <h3>Política de correcciones y retractaciones</h3>
+          <p>OncoBridge está comprometida con la integridad permanente del registro científico.</p>
+          <p><strong>Correcciones (Erratas):</strong> Cuando se detecten errores menores que no afecten las conclusiones del estudio, se publicará una fe de errata enlazada al artículo original, indicando claramente la fecha y naturaleza de la corrección.</p>
+          <p><strong>Expresiones de preocupación:</strong> Si se reciben alegaciones sobre la integridad de un artículo publicado mientras se investiga, OncoBridge publicará una Expresión de Preocupación para alertar a los lectores.</p>
+          <p><strong>Retractaciones:</strong> Los artículos podrán ser retractados si se comprueba: fabricación o falsificación de datos, plagio significativo, errores mayores que invaliden las conclusiones, o publicación duplicada no declarada. La retractación se publicará con explicación clara y el artículo original permanecerá accesible marcado como retractado.</p>
+          <p>OncoBridge sigue el procedimiento estándar de COPE para el manejo de retractaciones.</p>
+        </section>
+
+        <section id="plagio">
+          <h3>Política antiplagio</h3>
+          <p>OncoBridge utiliza herramientas de detección de similitud para evaluar todos los manuscritos recibidos. Un índice de similitud elevado puede resultar en rechazo inmediato sin revisión por pares.</p>
+          <p><strong>Tipos de plagio que generan rechazo automático:</strong></p>
+          <ul>
+            <li>Copia directa de texto de otras fuentes sin atribución adecuada</li>
+            <li>Autoplagio: reutilización de texto sustancial de publicaciones previas de los propios autores sin declaración</li>
+            <li>Publicación duplicada: envío del mismo manuscrito a dos revistas simultáneamente</li>
+            <li>Redundancia de datos: publicación fraccionada de un mismo estudio sin justificación</li>
+          </ul>
+          <p>Los autores deben asegurarse de que todo texto tomado de otras fuentes esté adecuadamente citado y, cuando corresponda, entre comillas.</p>
+        </section>
+
+        <section id="licencia">
+          <h3>Licencia Creative Commons CC BY 4.0</h3>
+          <p>Todos los artículos publicados en OncoBridge se distribuyen bajo la licencia <strong>Creative Commons Atribución 4.0 Internacional (CC BY 4.0)</strong>.</p>
+          <p>Esta licencia permite a cualquier persona:</p>
+          <ul>
+            <li><strong>Compartir:</strong> Copiar y redistribuir el material en cualquier medio o formato</li>
+            <li><strong>Adaptar:</strong> Remezclar, transformar y construir a partir del material para cualquier propósito, incluso comercialmente</li>
+          </ul>
+          <p>Bajo las siguientes condiciones:</p>
+          <ul>
+            <li><strong>Atribución:</strong> Debe otorgarse el crédito apropiado, proporcionar un enlace a la licencia e indicar si se realizaron cambios.</li>
+          </ul>
+          <p>Los autores conservan el copyright de su trabajo y otorgan a OncoBridge una licencia no exclusiva para publicarlo.</p>
+          <div class="cc-badge">
+            <span style="font-size:16px">©</span>
+            <span>Creative Commons · Atribución 4.0 Internacional · CC BY 4.0</span>
+          </div>
+        </section>
+
+        <section id="archivo">
+          <h3>Archivado y preservación digital</h3>
+          <p>OncoBridge garantiza el acceso permanente a su contenido mediante múltiples estrategias de preservación digital:</p>
+          <p><strong>Zenodo (CERN):</strong> Cada artículo publicado se deposita en Zenodo, el repositorio de datos de investigación del CERN. Zenodo asigna un DOI permanente y garantiza la preservación del archivo a largo plazo independientemente de la existencia de la revista.</p>
+          <p><strong>GitHub Pages:</strong> El sitio web y el contenido editorial se mantienen en un repositorio de GitHub, con versionado completo de todos los cambios.</p>
+          <p><strong>Backup institucional:</strong> Se mantienen copias de seguridad periódicas en múltiples ubicaciones geográficas.</p>
+          <p>Los DOIs asignados vía Zenodo resuelven permanentemente al artículo original, asegurando que las citas bibliográficas permanezcan válidas indefinidamente.</p>
+          <div class="info-box">
+            <p>🔒 Todos los artículos de OncoBridge son accesibles permanentemente en: <strong>zenodo.org/communities/oncobridge</strong></p>
+          </div>
+        </section>
+
+        <section id="apc">
+          <h3>Cargos por procesamiento de artículos (APCs)</h3>
+          <p>OncoBridge <strong>no cobra ningún cargo</strong> a los autores por enviar, revisar ni publicar sus manuscritos.</p>
+          <p>No existen cargos por procesamiento de artículos (Article Processing Charges, APCs), cargos por envío, ni tasas de suscripción para los lectores. La revista opera bajo un modelo de acceso abierto diamante, sostenido por el trabajo voluntario del equipo editorial y, en el futuro, por convenios institucionales y financiamiento científico.</p>
+          <p>Esta política puede actualizarse en el futuro conforme la revista crezca. Cualquier cambio en la política de APCs se comunicará con al menos 6 meses de anticipación y no afectará manuscritos ya en proceso editorial.</p>
+          <div class="info-box">
+            <p>💎 <strong>Acceso abierto diamante:</strong> Gratis para leer. Gratis para publicar. Siempre.</p>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="assets/logo.png" alt="OncoBridge" onerror="this.style.display='none'; document.getElementById('footer-logo-fallback').style.display='block'">
+        <span id="footer-logo-fallback" class="footer-logo-text" style="display:none">Onco<span>Bridge</span></span>
+        <p class="footer-tagline">Revista científica digital de oncología traslacional. Revisión por pares · Acceso abierto · DOI permanente.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Revista</div>
+        <ul class="footer-links">
+          <li><a href="index.html#articulos">Artículos recientes</a></li>
+          <li><a href="index.html#secciones">Secciones temáticas</a></li>
+          <li><a href="comite-editorial.html">Comité editorial</a></li>
+          <li><a href="politica-editorial.html">Política editorial</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Para autores</div>
+        <ul class="footer-links">
+          <li><a href="para-autores.html#tipos">Tipos de manuscritos</a></li>
+          <li><a href="para-autores.html#formato">Normas de formato</a></li>
+          <li><a href="para-autores.html#envio">Enviar manuscrito</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contacto</div>
+        <ul class="footer-links">
+          <li><a href="mailto:oncobridge.editorial@gmail.com">oncobridge.editorial@gmail.com</a></li>
+          <li><a href="comite-editorial.html#unirse">Ser revisor</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 OncoBridge · Todos los artículos son de acceso abierto</p>
+      <a href="politica-editorial.html">Política editorial</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function goTo(id, event) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.policy-nav li').forEach(li => li.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+window.addEventListener('scroll', () => {
+  const ids = ['acceso-abierto','revision-pares','etica','conflicto','correcciones','plagio','licencia','archivo','apc'];
+  const items = document.querySelectorAll('.policy-nav li');
+  ids.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const r = el.getBoundingClientRect();
+      if (r.top <= 110 && r.bottom > 0) {
+        items.forEach(li => li.classList.remove('active'));
+        if (items[i]) items[i].classList.add('active');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

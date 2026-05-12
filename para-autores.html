@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instrucciones para autores — OncoBridge</title>
+  <meta name="description" content="Guía completa para autores: tipos de manuscritos, normas de formato Vancouver, declaraciones requeridas y proceso de envío a OncoBridge.">
+  <meta name="citation_journal_title" content="OncoBridge">
+  <meta property="og:title" content="Instrucciones para autores — OncoBridge">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- NAVEGACIÓN -->
+<nav class="nav">
+  <div class="container">
+    <a class="nav-logo" href="index.html">
+      <img src="assets/logo.png" alt="OncoBridge"
+           onerror="this.style.display='none'; document.getElementById('nav-logo-fallback').style.display='block'">
+      <span id="nav-logo-fallback" class="nav-logo-text" style="display:none">Onco<span>Bridge</span></span>
+    </a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menú">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html#articulos">Artículos</a></li>
+      <li><a href="index.html#secciones">Secciones</a></li>
+      <li><a href="para-autores.html" class="active">Para autores</a></li>
+      <li><a href="comite-editorial.html">Comité editorial</a></li>
+      <li><a href="#envio" class="nav-cta">Enviar manuscrito</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO PEQUEÑO -->
+<section class="hero-sm">
+  <div class="container">
+    <div class="hero-eyebrow" style="margin-bottom:16px">Para autores</div>
+    <h1>Instrucciones y normas editoriales</h1>
+    <p>Todo lo que necesitas saber para preparar, formatear y enviar tu manuscrito a OncoBridge. Leemos con entusiasmo cada envío que cruce el puente entre la ciencia y la clínica.</p>
+  </div>
+</section>
+
+<!-- CONTENIDO PRINCIPAL -->
+<section class="section">
+  <div class="container">
+    <div class="authors-grid">
+
+      <!-- NAV LATERAL -->
+      <aside>
+        <ul class="authors-nav" id="authors-nav">
+          <li class="active" onclick="scrollTo('politica')">Política editorial</li>
+          <li onclick="scrollTo('tipos')">Tipos de manuscritos</li>
+          <li onclick="scrollTo('formato')">Normas de formato</li>
+          <li onclick="scrollTo('estructura')">Estructura del manuscrito</li>
+          <li onclick="scrollTo('declaraciones')">Declaraciones requeridas</li>
+          <li onclick="scrollTo('proceso')">Proceso de envío</li>
+          <li onclick="scrollTo('acceso')">Acceso abierto y licencia</li>
+          <li onclick="scrollTo('faq')">Preguntas frecuentes</li>
+          <li onclick="scrollTo('envio')" style="color:var(--coral);font-weight:500">Enviar manuscrito →</li>
+        </ul>
+      </aside>
+
+      <!-- CONTENIDO -->
+      <main class="authors-content">
+
+        <section id="politica">
+          <h3>Política editorial</h3>
+          <p>OncoBridge es una revista científica digital de acceso abierto dedicada a la <strong>oncología traslacional</strong>. Nuestro objetivo es cerrar la brecha entre el laboratorio y la clínica, facilitando el diálogo entre médicos investigadores, científicos de datos, personal de salud y estudiantes de medicina.</p>
+          <p>Aceptamos manuscritos originales en español e inglés que representen una contribución genuina al conocimiento oncológico. Todo trabajo debe ser inédito, no estar bajo revisión simultánea en otra revista y cumplir con los más altos estándares éticos.</p>
+          <div class="info-box">
+            <p>📋 OncoBridge adopta las directrices del <strong>Committee on Publication Ethics (COPE)</strong>, las recomendaciones del <strong>ICMJE</strong> y los principios de la <strong>Declaración de Helsinki</strong> para toda investigación en humanos.</p>
+          </div>
+        </section>
+
+        <section id="tipos">
+          <h3>Tipos de manuscritos aceptados</h3>
+          <p>OncoBridge acepta siete tipos de manuscritos para adaptarse a la diversidad de nuestra comunidad científica:</p>
+
+          <table class="type-table">
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Extensión máx.</th>
+                <th>Figuras/Tablas</th>
+                <th>Referencias</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Artículo Original</strong><br><span style="font-size:11px;color:var(--vol-2)">Investigación primaria con metodología sólida</span></td>
+                <td>4,500 palabras</td>
+                <td>6</td>
+                <td>Máx. 50</td>
+              </tr>
+              <tr>
+                <td><strong>Prueba de Concepto</strong><br><span style="font-size:11px;color:var(--vol-2)">Piloto o hallazgos preliminares. Ideal para tesis de residentes.</span></td>
+                <td>2,500 palabras</td>
+                <td>4</td>
+                <td>Máx. 30</td>
+              </tr>
+              <tr>
+                <td><strong>Revisión / Meta-análisis</strong><br><span style="font-size:11px;color:var(--vol-2)">Revisiones educativas, sistemáticas o narrativas</span></td>
+                <td>6,000 palabras</td>
+                <td>8</td>
+                <td>Máx. 80</td>
+              </tr>
+              <tr>
+                <td><strong>Artículo de Opinión</strong><br><span style="font-size:11px;color:var(--vol-2)">Perspectiva crítica de expertos, ética o política de salud</span></td>
+                <td>1,500 palabras</td>
+                <td>2</td>
+                <td>Máx. 20</td>
+              </tr>
+              <tr>
+                <td><strong>Artículo de Difusión</strong><br><span style="font-size:11px;color:var(--vol-2)">Narrativo, traduce ciencia compleja para audiencia amplia</span></td>
+                <td>2,000 palabras</td>
+                <td>3</td>
+                <td>Máx. 20</td>
+              </tr>
+              <tr>
+                <td><strong>Caso Clínico con Valor Educativo</strong><br><span style="font-size:11px;color:var(--vol-2)">Perlas clínicas y retos diagnóstico-terapéuticos</span></td>
+                <td>2,000 palabras</td>
+                <td>4</td>
+                <td>Máx. 25</td>
+              </tr>
+              <tr>
+                <td><strong>OncoBridge en 3 Minutos</strong><br><span style="font-size:11px;color:var(--vol-2)">Video abstract para redes sociales (complemento de otro artículo)</span></td>
+                <td>Script 600 palabras</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="info-box">
+            <p>🎓 <strong>Fomento al talento emergente:</strong> La sección <em>Prueba de Concepto</em> está especialmente diseñada para residentes y estudiantes que deseen publicar tesis, estudios piloto o hallazgos preliminares con alto potencial. El proceso de revisión incluye retroalimentación formativa.</p>
+          </div>
+        </section>
+
+        <section id="formato">
+          <h3>Normas de formato</h3>
+          <p>Todos los manuscritos deben seguir las normas del <strong>International Committee of Medical Journal Editors (ICMJE)</strong> y utilizar el <strong>estilo Vancouver</strong> para las referencias bibliográficas.</p>
+          <ul>
+            <li>Fuente: Times New Roman o Arial, tamaño 12pt, interlineado doble</li>
+            <li>Márgenes de 2.5 cm en todos los lados</li>
+            <li>Páginas numeradas desde la portada</li>
+            <li>Manuscrito en <strong>versión ciega</strong> (sin nombres ni afiliaciones de autores) para el proceso de revisión</li>
+            <li>Figuras en alta resolución (mínimo 300 DPI), formatos TIFF o PNG</li>
+            <li>Tablas en formato editable (Word), no imágenes de tablas</li>
+            <li>Unidades: Sistema Internacional (SI)</li>
+            <li>Abreviaturas: definirlas en su primera aparición en el texto</li>
+          </ul>
+
+          <p style="margin-top:16px"><strong>Referencias estilo Vancouver:</strong></p>
+          <p>Las referencias se numeran consecutivamente en orden de aparición en el texto con números arábigos entre corchetes [1]. Ejemplo de artículo de revista:</p>
+          <div style="background:var(--ivory-2);border-left:3px solid var(--axo-3);padding:12px 16px;border-radius:0 3px 3px 0;font-family:var(--mono);font-size:12px;color:var(--vol);margin:12px 0;line-height:1.7">
+            Apellido AB, Apellido CD. Título del artículo. Nombre Rev Abreviado. AAAA;Vol(Núm):pp-pp. doi:10.XXXXX/XXXX
+          </div>
+        </section>
+
+        <section id="estructura">
+          <h3>Estructura del manuscrito</h3>
+          <p>Para <strong>Artículos Originales</strong>, se requiere la estructura IMRyD:</p>
+          <ul>
+            <li><strong>Portada:</strong> Título completo, autores con afiliaciones y ORCID, autor de correspondencia, declaración de conflictos</li>
+            <li><strong>Resumen estructurado</strong> (máx. 350 palabras): Introducción/Objetivo, Métodos, Resultados, Conclusiones</li>
+            <li><strong>Palabras clave:</strong> 4–7, preferentemente del MeSH/DeCS</li>
+            <li><strong>Abstract en inglés</strong> con Keywords</li>
+            <li><strong>Introducción:</strong> Justificación y objetivo del estudio</li>
+            <li><strong>Métodos:</strong> Diseño, población, criterios de selección, análisis estadístico, aprobación ética</li>
+            <li><strong>Resultados:</strong> Sin interpretación, solo datos</li>
+            <li><strong>Discusión:</strong> Interpretación, fortalezas, limitaciones, contexto global</li>
+            <li><strong>Conclusiones</strong></li>
+            <li><strong>Declaraciones:</strong> Financiamiento, conflictos de interés, aprobación ética, disponibilidad de datos</li>
+            <li><strong>Contribución de autoría</strong> (criterios CRediT)</li>
+            <li><strong>Referencias bibliográficas</strong></li>
+          </ul>
+          <div class="info-box">
+            <p>📄 Para otros tipos de manuscritos (revisiones, casos clínicos, etc.), consultar las indicaciones específicas por tipo en el formulario de envío.</p>
+          </div>
+        </section>
+
+        <section id="declaraciones">
+          <h3>Declaraciones requeridas</h3>
+          <p>Todos los manuscritos deben incluir las siguientes declaraciones, que también se capturan en el formulario de envío:</p>
+          <ul>
+            <li><strong>Originalidad:</strong> El manuscrito es inédito y no está bajo revisión simultánea en otra publicación.</li>
+            <li><strong>Autoría:</strong> Todos los autores cumplen con los criterios ICMJE para autoría y aprueban la versión final.</li>
+            <li><strong>Contribución CRediT:</strong> Descripción del rol específico de cada autor (conceptualización, metodología, análisis, redacción, etc.).</li>
+            <li><strong>Conflicto de interés:</strong> Declaración explícita de conflictos o ausencia de los mismos.</li>
+            <li><strong>Financiamiento:</strong> Fuentes de financiamiento del estudio.</li>
+            <li><strong>Aprobación ética:</strong> Número de aprobación del comité de ética institucional y consentimiento informado (cuando aplique).</li>
+            <li><strong>Disponibilidad de datos:</strong> Los datos están disponibles a solicitud razonada del editor o comunidad científica.</li>
+          </ul>
+        </section>
+
+        <section id="proceso">
+          <h3>Proceso de envío y revisión</h3>
+          <p>El proceso editorial de OncoBridge es completamente digital y transparente:</p>
+          <ul>
+            <li><strong>Envío:</strong> A través del formulario en línea (enlace al final de esta página). No se aceptan envíos por correo electrónico.</li>
+            <li><strong>Acuse de recibo:</strong> Automático en menos de 24 horas, con número de seguimiento OB-YYYY-NNN.</li>
+            <li><strong>Revisión inicial:</strong> El editor de sección evalúa pertinencia, integridad y formato en 5 días hábiles.</li>
+            <li><strong>Revisión por pares:</strong> Proceso doble ciego con 2 revisores expertos. Plazo estándar: 21 días.</li>
+            <li><strong>Decisión editorial:</strong> Aceptación, revisión menor, revisión mayor o rechazo, siempre con dictamen justificado.</li>
+            <li><strong>Correcciones:</strong> 14 días para revisión mayor, 7 días para revisión menor.</li>
+            <li><strong>Publicación:</strong> PDF editorial con DOI permanente vía Zenodo, acceso abierto inmediato.</li>
+          </ul>
+          <div class="info-box">
+            <p>⏱ <strong>Tiempo medio estimado:</strong> Recepción a primera decisión: 14–21 días. Recepción a publicación final: 45–75 días.</p>
+          </div>
+        </section>
+
+        <section id="acceso">
+          <h3>Acceso abierto y licencia</h3>
+          <p>OncoBridge es una revista de <strong>acceso abierto completo</strong>. Todos los artículos se publican bajo licencia <strong>Creative Commons Atribución 4.0 Internacional (CC BY 4.0)</strong>.</p>
+          <p>Esto significa que cualquier persona puede leer, descargar, copiar, distribuir, imprimir, buscar o enlazar al texto completo de los artículos, sin restricciones financieras, legales o técnicas, siempre que se cite correctamente la fuente original.</p>
+          <p><strong>Sin cargos por procesamiento de artículos (APC):</strong> OncoBridge no cobra ninguna tarifa a los autores por enviar, revisar ni publicar sus manuscritos durante esta etapa inaugural de la revista.</p>
+          <div class="cc-badge">
+            <span style="font-size:16px">©</span>
+            <span>Creative Commons · Atribución 4.0 Internacional · CC BY 4.0</span>
+          </div>
+        </section>
+
+        <section id="faq">
+          <h3>Preguntas frecuentes</h3>
+
+          <p><strong>¿Puedo enviar en español?</strong><br>
+          Sí. Aceptamos manuscritos en español e inglés. El resumen debe estar en ambos idiomas independientemente del idioma del manuscrito.</p>
+
+          <p><strong>¿Los estudiantes y residentes pueden publicar?</strong><br>
+          Absolutamente. La sección <em>Prueba de Concepto</em> fue creada especialmente para ellos. Los residentes pueden enviar como primer autor con el aval de un tutor o investigador responsable.</p>
+
+          <p><strong>¿Qué es el número de seguimiento OB-YYYY-NNN?</strong><br>
+          Es el identificador único de tu manuscrito (Ej: OB-2025-012). Úsalo en toda comunicación con el equipo editorial para agilizar el seguimiento de tu trabajo.</p>
+
+          <p><strong>¿Pueden mis datos ser rechazados?</strong><br>
+          El rechazo puede ocurrir en la revisión inicial (por no cumplir requisitos formales) o tras la revisión por pares. En ambos casos recibirás una comunicación con justificación clara y, cuando sea posible, retroalimentación constructiva.</p>
+
+          <p><strong>¿Cómo obtengo el DOI de mi artículo?</strong><br>
+          Una vez aceptado y en producción, el equipo editorial deposita el artículo en Zenodo y obtiene el DOI permanente antes de la publicación en línea. El DOI se comunica al autor de correspondencia junto con la notificación de publicación.</p>
+
+          <p><strong>¿Qué es OncoBridge en 3 Minutos?</strong><br>
+          Es un video abstract de menos de 3 minutos diseñado para redes sociales, que acompaña opcionalmente a cualquier artículo publicado. El equipo editorial puede asesorarte en su producción.</p>
+        </section>
+
+        <!-- CTA ENVÍO -->
+        <div class="cta-box" id="envio">
+          <h3>¿Listo para enviar tu manuscrito?</h3>
+          <p>Completa el formulario en línea. Recibirás confirmación automática con tu número de seguimiento en menos de 24 horas.</p>
+          <a href="https://forms.gle/XXXXXXXXXXXXXX" target="_blank" rel="noopener" class="btn btn-primary">
+            Enviar manuscrito ahora →
+          </a>
+          <p style="margin-top:16px;font-size:12px;color:var(--vol-3)">
+            ¿Dudas antes de enviar? Escríbenos a
+            <a href="mailto:oncobridge.editorial@gmail.com" style="color:var(--axo-3)">oncobridge.editorial@gmail.com</a>
+          </p>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="assets/logo.png" alt="OncoBridge" onerror="this.style.display='none'; document.getElementById('footer-logo-fallback').style.display='block'">
+        <span id="footer-logo-fallback" class="footer-logo-text" style="display:none">Onco<span>Bridge</span></span>
+        <p class="footer-tagline">Revista científica digital de oncología traslacional. Revisión por pares · Acceso abierto · DOI permanente.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Revista</div>
+        <ul class="footer-links">
+          <li><a href="index.html#articulos">Artículos recientes</a></li>
+          <li><a href="index.html#secciones">Secciones temáticas</a></li>
+          <li><a href="comite-editorial.html">Comité editorial</a></li>
+          <li><a href="politica-editorial.html">Política editorial</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Para autores</div>
+        <ul class="footer-links">
+          <li><a href="#tipos">Tipos de manuscritos</a></li>
+          <li><a href="#formato">Normas de formato</a></li>
+          <li><a href="#declaraciones">Declaraciones requeridas</a></li>
+          <li><a href="#envio">Enviar manuscrito</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contacto</div>
+        <ul class="footer-links">
+          <li><a href="mailto:oncobridge.editorial@gmail.com">oncobridge.editorial@gmail.com</a></li>
+          <li><a href="comite-editorial.html#unirse">Ser revisor</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 OncoBridge · Todos los artículos son de acceso abierto</p>
+      <a href="politica-editorial.html">Política editorial</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav lateral activo al hacer scroll
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  document.querySelectorAll('.authors-nav li').forEach(li => li.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+window.addEventListener('scroll', () => {
+  const sections = ['politica','tipos','formato','estructura','declaraciones','proceso','acceso','faq','envio'];
+  const navItems = document.querySelectorAll('.authors-nav li');
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 100 && rect.bottom > 0) {
+        navItems.forEach(li => li.classList.remove('active'));
+        if (navItems[i]) navItems[i].classList.add('active');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
