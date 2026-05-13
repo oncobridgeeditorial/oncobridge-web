@@ -229,43 +229,6 @@ button { font-family: var(--sans); cursor: pointer; border: none; }
   line-height: 1.55; 
 }
 
-/* ── Ajustes para Móviles y Tablets (Responsivo) ─────────────── */
-
-@media (max-width: 1024px) {
-  /* Cambia la cuadrícula a una sola columna */
-  .scope-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  /* Elimina la transparencia del bloque pegajoso al hacer scroll */
-  .scope-sticky {
-    position: sticky;
-    top: 0; /* Se pega al borde superior del navegador */
-    background-color: var(--obs-1); /* Color sólido (Obsidiana) para tapar lo de abajo */
-    padding: 20px 0;
-    z-index: 10;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-
-  /* Agrega un degradado para que las categorías se desvanezcan al subir */
-  .scope-sticky::after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(to bottom, var(--obs-1), transparent);
-    pointer-events: none;
-  }
-
-  /* Ajusta las áreas a una sola columna en pantallas muy pequeñas */
-  .scope-areas {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ── Proceso editorial ────────────────────────────────────────── */
 .process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-top: 12px; }
 .step { position: relative; }
