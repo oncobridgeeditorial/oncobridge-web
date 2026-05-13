@@ -1,0 +1,26 @@
+[
+  {
+    "id": "OB-2025-001",
+    "tipo": "Artículo Original",
+    "seccion": "IA y Bioinformática",
+    "titulo": "Modelo de deep learning para predicción de respuesta a inmunoterapia...",
+    "autores": "Ramírez-Ochoa S, Torres-Villanueva M · INCan, CDMX",
+    "abstract": "Se desarrolló y validó un modelo de red neuronal convolucional...",
+    "doi": "doi.org/10.5281/zenodo.XXXXXXX",
+    "url_doi": "https://zenodo.org/record/XXXXXXX",
+    "fecha": "2025-06-15",
+    "destacado": true
+  },
+  {
+    "id": "OB-2025-002",
+    "tipo": "Revisión Sistemática",
+    "seccion": "Oncología Molecular",
+    "titulo": "Biomarcadores predictivos de toxicidad...",
+    "autores": "Flores-Cantú R, Medina-Soto P · UNAM",
+    "abstract": "Revisión sistemática de 28 estudios...",
+    "doi": "doi.org/10.5281/zenodo.XXXXXXX",
+    "url_doi": "https://zenodo.org/record/XXXXXXX",
+    "fecha": "2025-06-10",
+    "destacado": false
+  }
+]
