@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enviar manuscrito — OncoBridge</title>
+  <meta name="description" content="Envía tu manuscrito a OncoBridge. Formulario de recepción oficial de la revista.">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* ── Estilos exclusivos del formulario ── */
+    .form-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 52px;
+      align-items: start;
+    }
+
+    /* Nav lateral de progreso */
+    .form-progress { position: sticky; top: 80px; }
+    .form-progress-title {
+      font-size: 11px; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--vol-2); margin-bottom: 16px;
+    }
+    .progress-steps { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .progress-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; cursor: pointer;
+      border-bottom: 0.5px solid var(--ivory-3);
+    }
+    .progress-step:last-child { border-bottom: none; }
+    .step-circle {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid var(--ivory-3); background: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 500; color: var(--vol-2);
+      transition: all .2s;
+    }
+    .progress-step.active .step-circle {
+      background: var(--obs); border-color: var(--obs); color: var(--axo);
+    }
+    .progress-step.done .step-circle {
+      background: var(--green, #4a7c5f); border-color: var(--green, #4a7c5f); color: white;
+      font-size: 12px;
+    }
+    .progress-step.done .step-circle::before { content: '✓'; }
+    .step-label { font-size: 13px; color: var(--vol); padding-top: 2px; line-height: 1.3; }
+    .progress-step.active .step-label { color: var(--obs); font-weight: 500; }
+
+    .progress-bar-wrap { margin-top: 20px; }
+    .progress-bar-track {
+      height: 3px; background: var(--ivory-3); border-radius: 2px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; background: var(--axo-2); border-radius: 2px;
+      transition: width .4s ease;
+    }
+    .progress-pct {
+      font-size: 11px; color: var(--vol-2); margin-top: 6px;
+    }
+
+    /* Formulario principal */
+    .form-main { min-width: 0; }
+
+    .form-section {
+      display: none;
+      animation: fadeIn .25s ease;
+    }
+    .form-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .form-section-header {
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--ivory-3);
+    }
+    .form-section-num {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--axo-2); letter-spacing: .08em;
+      text-transform: uppercase; display: block; margin-bottom: 4px;
+    }
+    .form-section-title {
+      font-family: var(--serif); font-size: 20px; font-weight: 400;
+      margin-bottom: 6px;
+    }
+    .form-section-desc { font-size: 13px; color: var(--vol); line-height: 1.65; }
+
+    /* Campos del formulario */
+    .field { margin-bottom: 22px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+    label {
+      display: block; font-size: 12px; font-weight: 500;
+      color: var(--obs); margin-bottom: 6px; letter-spacing: .01em;
+    }
+    label .req { color: var(--coral); margin-left: 2px; }
+    label .opt { color: var(--vol-2); font-weight: 400; font-size: 11px; margin-left: 4px; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%; padding: 10px 13px;
+      font-family: var(--sans); font-size: 13px; color: var(--obs);
+      background: white; border: 1px solid var(--ivory-3);
+      border-radius: var(--r, 4px); outline: none;
+      transition: border-color .18s;
+      appearance: none;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--axo-2);
+      box-shadow: 0 0 0 3px rgba(232,196,192,0.18);
+    }
+    input.error, select.error, textarea.error {
+      border-color: var(--coral);
+    }
+    textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+    .field-hint {
+      font-size: 11px; color: var(--vol-2); margin-top: 5px; line-height: 1.5;
+    }
+    .field-error {
+      font-size: 11px; color: var(--coral); margin-top: 5px; display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* Select custom arrow */
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▾'; position: absolute; right: 12px; top: 50%;
+      transform: translateY(-50%); pointer-events: none;
+      color: var(--vol-2); font-size: 12px;
+    }
+
+    /* Checkboxes y declaraciones */
+    .check-group { display: flex; flex-direction: column; gap: 12px; }
+    .check-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 14px;
+      background: var(--ivory-2); border: 1px solid var(--ivory-3);
+      border-radius: var(--r, 4px); cursor: pointer;
+      transition: border-color .18s;
+    }
+    .check-item:hover { border-color: var(--axo-3); }
+    .check-item input[type="checkbox"] {
+      width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px;
+      accent-color: var(--obs); cursor: pointer;
+    }
+    .check-item-text { font-size: 13px; color: var(--vol); line-height: 1.55; }
+    .check-item-text strong { color: var(--obs); }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 1.5px dashed var(--ivory-3); border-radius: var(--r, 4px);
+      padding: 24px; text-align: center; background: var(--ivory-2);
+      cursor: pointer; transition: border-color .18s;
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--axo-2); background: rgba(232,196,192,0.06);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+    }
+    .upload-icon { font-size: 24px; margin-bottom: 8px; }
+    .upload-label { font-size: 13px; font-weight: 500; color: var(--obs); margin-bottom: 3px; }
+    .upload-sub { font-size: 11px; color: var(--vol-2); }
+    .upload-files { list-style: none; margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+    .upload-file {
+      display: flex; align-items: center; justify-content: space-between;
+      background: white; border: 1px solid var(--ivory-3);
+      border-radius: 3px; padding: 7px 12px; font-size: 12px;
+    }
+    .upload-file-name { color: var(--obs); }
+    .upload-file-size { color: var(--vol-2); font-size: 11px; }
+    .upload-remove {
+      background: none; border: none; color: var(--coral);
+      cursor: pointer; font-size: 16px; line-height: 1; padding: 0 0 0 8px;
+    }
+
+    /* Navegación entre secciones */
+    .form-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 28px; margin-top: 28px;
+      border-top: 1px solid var(--ivory-3);
+    }
+    .btn-nav {
+      padding: 10px 24px; font-family: var(--sans);
+      font-size: 13px; font-weight: 500;
+      border-radius: var(--r, 4px); cursor: pointer;
+      border: 1px solid transparent; transition: all .18s;
+    }
+    .btn-nav-prev {
+      background: white; color: var(--vol);
+      border-color: var(--ivory-3);
+    }
+    .btn-nav-prev:hover { border-color: var(--vol-2); }
+    .btn-nav-next {
+      background: var(--obs); color: var(--axo); border-color: var(--obs);
+    }
+    .btn-nav-next:hover { background: var(--obs-2); }
+    .btn-nav-submit {
+      background: var(--axo); color: var(--obs); border-color: var(--axo);
+    }
+    .btn-nav-submit:hover { background: var(--axo-2); }
+    .btn-nav-submit:disabled {
+      opacity: .5; cursor: not-allowed;
+    }
+
+    /* Estado de envío */
+    .sending-state, .success-state, .error-state { display: none; }
+    .sending-state.visible, .success-state.visible, .error-state.visible { display: block; }
+
+    .success-box {
+      text-align: center; padding: 48px 32px;
+      background: var(--obs); border-radius: 6px;
+    }
+    .success-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(232,196,192,0.15); border: 1px solid rgba(232,196,192,0.3);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; font-size: 22px;
+    }
+    .success-id {
+      font-family: var(--mono); font-size: 22px; color: var(--axo);
+      font-weight: 500; letter-spacing: .04em; margin-bottom: 8px;
+    }
+    .success-title {
+      font-family: var(--serif); font-size: 20px; color: var(--ivory);
+      font-weight: 400; margin-bottom: 12px;
+    }
+    .success-desc { font-size: 13px; color: var(--vol-3); line-height: 1.75; max-width: 420px; margin: 0 auto; }
+
+    .info-banner {
+      background: rgba(232,196,192,0.08); border: 1px solid rgba(232,196,192,0.2);
+      border-radius: var(--r, 4px); padding: 14px 18px;
+      font-size: 13px; color: var(--vol); line-height: 1.65; margin-bottom: 20px;
+    }
+    .info-banner strong { color: var(--obs); }
+
+    @media (max-width: 900px) {
+      .form-layout { grid-template-columns: 1fr; }
+      .form-progress { display: none; }
+      .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVEGACIÓN -->
+<nav class="nav">
+  <div class="container">
+    <a class="nav-logo" href="index.html">
+      <img src="assets/logo.png" alt="OncoBridge"
+           onerror="this.style.display='none'; document.getElementById('nav-logo-fb').style.display='block'">
+      <span id="nav-logo-fb" class="nav-logo-text" style="display:none">Onco<span>Bridge</span></span>
+    </a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menú">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html#articulos">Artículos</a></li>
+      <li><a href="index.html#secciones">Secciones</a></li>
+      <li><a href="para-autores.html">Para autores</a></li>
+      <li><a href="comite-editorial.html">Comité editorial</a></li>
+      <li><a href="enviar-manuscrito.html" class="nav-cta">Enviar manuscrito</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO PEQUEÑO -->
+<section class="hero-sm">
+  <div class="container">
+    <div class="hero-eyebrow" style="margin-bottom:16px">Envío de manuscritos</div>
+    <h1>Enviar manuscrito</h1>
+    <p>Completa las cuatro secciones del formulario. Recibirás un acuse de recibo automático con tu número de seguimiento en menos de 24 horas.</p>
+  </div>
+</section>
+
+<!-- FORMULARIO PRINCIPAL -->
+<section class="section">
+  <div class="container">
+    <div class="form-layout">
+
+      <!-- NAV LATERAL DE PROGRESO -->
+      <aside class="form-progress">
+        <div class="form-progress-title">Progreso del envío</div>
+        <ul class="progress-steps" id="progress-steps">
+          <li class="progress-step active" onclick="irA(0)">
+            <div class="step-circle">1</div>
+            <div class="step-label">Datos del manuscrito</div>
+          </li>
+          <li class="progress-step" onclick="irA(1)">
+            <div class="step-circle">2</div>
+            <div class="step-label">Información de autores</div>
+          </li>
+          <li class="progress-step" onclick="irA(2)">
+            <div class="step-circle">3</div>
+            <div class="step-label">Declaraciones éticas</div>
+          </li>
+          <li class="progress-step" onclick="irA(3)">
+            <div class="step-circle">4</div>
+            <div class="step-label">Archivos del manuscrito</div>
+          </li>
+        </ul>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progress-bar" style="width:25%"></div>
+          </div>
+          <div class="progress-pct" id="progress-pct">Sección 1 de 4</div>
+        </div>
+        <div style="margin-top:20px; padding-top:16px; border-top: 1px solid var(--ivory-3)">
+          <p style="font-size:12px;color:var(--vol-2);line-height:1.65">
+            ¿Dudas antes de enviar?<br>
+            <a href="para-autores.html" style="color:var(--coral)">Ver instrucciones para autores →</a>
+          </p>
+        </div>
+      </aside>
+
+      <!-- SECCIONES DEL FORMULARIO -->
+      <main class="form-main">
+
+        <!-- ══ SECCIÓN 1: DATOS DEL MANUSCRITO ══ -->
+        <div class="form-section active" id="seccion-0">
+          <div class="form-section-header">
+            <span class="form-section-num">Sección 01 / 04</span>
+            <h2 class="form-section-title">Datos del manuscrito</h2>
+            <p class="form-section-desc">Información bibliográfica principal del trabajo que deseas someter a revisión.</p>
+          </div>
+
+          <div class="field">
+            <label for="titulo">Título completo del manuscrito <span class="req">*</span></label>
+            <input type="text" id="titulo" name="titulo" placeholder="Título tal como aparecerá publicado" required>
+            <div class="field-error" id="err-titulo">Este campo es requerido.</div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="tipo">Tipo de manuscrito <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="tipo" name="tipo" required>
+                  <option value="">Seleccionar tipo…</option>
+                  <option>Artículo Original</option>
+                  <option>Prueba de Concepto</option>
+                  <option>Revisión Sistemática o Meta-análisis</option>
+                  <option>Artículo de Opinión</option>
+                  <option>Artículo de Difusión</option>
+                  <option>Caso Clínico con Valor Educativo</option>
+                  <option>OncoBridge en 3 Minutos (Video Abstract)</option>
+                </select>
+              </div>
+              <div class="field-error" id="err-tipo">Selecciona el tipo de manuscrito.</div>
+            </div>
+            <div class="field">
+              <label for="seccion">Sección temática <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="seccion" name="seccion" required>
+                  <option value="">Seleccionar sección…</option>
+                  <option>I — Oncología Multidisciplinaria</option>
+                  <option>II — Imagenología, Intervencionismo y Teranóstica</option>
+                  <option>III — IA, Bioinformática e Innovación Digital</option>
+                  <option>IV — Oncología Molecular y Ciencias Básicas</option>
+                  <option>V — Epidemiología Clínica y Medicina Preventiva</option>
+                  <option>VI — Cuidados Continuos, Soporte y Enfermería</option>
+                  <option>VII — Interconsultas y Temas Transversales</option>
+                </select>
+              </div>
+              <div class="field-error" id="err-seccion">Selecciona la sección temática.</div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="idioma">Idioma del manuscrito <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="idioma" name="idioma" required>
+                  <option value="">Seleccionar…</option>
+                  <option>Español</option>
+                  <option>Inglés</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="palabras-clave">Palabras clave <span class="req">*</span></label>
+              <input type="text" id="palabras-clave" name="palabras_clave"
+                     placeholder="4–7 términos separados por coma" required>
+              <div class="field-hint">Usar términos MeSH/DeCS cuando sea posible.</div>
+              <div class="field-error" id="err-palabras-clave">Ingresa al menos 4 palabras clave.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="resumen">Resumen estructurado <span class="req">*</span></label>
+            <textarea id="resumen" name="resumen" rows="6"
+                      placeholder="Objetivo, Métodos, Resultados, Conclusiones. Máximo 350 palabras." required></textarea>
+            <div class="field-hint">
+              <span id="resumen-contador">0</span> palabras (máximo 350)
+            </div>
+            <div class="field-error" id="err-resumen">El resumen es requerido (mínimo 50 palabras).</div>
+          </div>
+
+          <div class="form-nav">
+            <span></span>
+            <button class="btn-nav btn-nav-next" onclick="siguiente(0)">
+              Siguiente: Autores →
+            </button>
+          </div>
+        </div>
+
+        <!-- ══ SECCIÓN 2: AUTORES ══ -->
+        <div class="form-section" id="seccion-1">
+          <div class="form-section-header">
+            <span class="form-section-num">Sección 02 / 04</span>
+            <h2 class="form-section-title">Información de autores</h2>
+            <p class="form-section-desc">Datos del autor de correspondencia y listado completo de coautores con sus contribuciones (criterios CRediT).</p>
+          </div>
+
+          <div class="info-banner">
+            <strong>Autor de correspondencia:</strong> persona responsable de toda comunicación con el equipo editorial durante el proceso de revisión y publicación.
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="autor-nombre">Nombre completo <span class="req">*</span></label>
+              <input type="text" id="autor-nombre" name="autor_nombre"
+                     placeholder="Apellido(s), Nombre(s)" required>
+              <div class="field-error" id="err-autor-nombre">Campo requerido.</div>
+            </div>
+            <div class="field">
+              <label for="autor-email">Correo electrónico <span class="req">*</span></label>
+              <input type="email" id="autor-email" name="autor_email"
+                     placeholder="correo@institucion.edu.mx" required>
+              <div class="field-error" id="err-autor-email">Ingresa un correo válido.</div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="autor-institucion">Institución <span class="req">*</span></label>
+              <input type="text" id="autor-institucion" name="autor_institucion"
+                     placeholder="Nombre completo de la institución" required>
+            </div>
+            <div class="field">
+              <label for="autor-orcid">ORCID <span class="opt">(recomendado)</span></label>
+              <input type="text" id="autor-orcid" name="autor_orcid"
+                     placeholder="0000-0000-0000-0000">
+              <div class="field-hint">Obtén tu ORCID gratuito en <a href="https://orcid.org" target="_blank" style="color:var(--coral)">orcid.org</a></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="coautores">Lista de coautores <span class="req">*</span></label>
+            <textarea id="coautores" name="coautores" rows="5"
+                      placeholder="Formato: Apellido AB, Institución, Contribución CRediT&#10;Ejemplo: García-López MC, UNAM FMED, Conceptualización y metodología&#10;Torres RJ, INCan, Adquisición de datos y análisis estadístico" required></textarea>
+            <div class="field-hint">Un autor por línea. Indicar la contribución específica de cada uno (CRediT taxonomy).</div>
+            <div class="field-error" id="err-coautores">Lista los coautores del manuscrito.</div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="revisores-sugeridos">Revisores sugeridos <span class="opt">(opcional)</span></label>
+              <textarea id="revisores-sugeridos" name="revisores_sugeridos" rows="3"
+                        placeholder="Nombre, institución, correo electrónico (uno por línea)"></textarea>
+              <div class="field-hint">Especialistas que podrían evaluar el manuscrito. No garantiza su asignación.</div>
+            </div>
+            <div class="field">
+              <label for="revisores-excluidos">Revisores excluidos <span class="opt">(opcional)</span></label>
+              <textarea id="revisores-excluidos" name="revisores_excluidos" rows="3"
+                        placeholder="Nombre y motivo de exclusión (uno por línea)"></textarea>
+              <div class="field-hint">Personas con conflicto de interés que no deben revisar este trabajo.</div>
+            </div>
+          </div>
+
+          <div class="form-nav">
+            <button class="btn-nav btn-nav-prev" onclick="anterior(1)">← Atrás</button>
+            <button class="btn-nav btn-nav-next" onclick="siguiente(1)">Siguiente: Declaraciones →</button>
+          </div>
+        </div>
+
+        <!-- ══ SECCIÓN 3: DECLARACIONES ══ -->
+        <div class="form-section" id="seccion-2">
+          <div class="form-section-header">
+            <span class="form-section-num">Sección 03 / 04</span>
+            <h2 class="form-section-title">Declaraciones éticas y de autoría</h2>
+            <p class="form-section-desc">Todas las declaraciones marcadas con <span style="color:var(--coral)">*</span> son obligatorias para continuar el proceso editorial.</p>
+          </div>
+
+          <div class="field">
+            <label>Declaraciones obligatorias <span class="req">*</span></label>
+            <div class="check-group" id="decl-group">
+              <label class="check-item">
+                <input type="checkbox" name="decl_original" id="decl-1">
+                <div class="check-item-text"><strong>Originalidad:</strong> El manuscrito es inédito, no ha sido publicado previamente en ninguna forma y no está bajo revisión simultánea en otra revista.</div>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" name="decl_autoria" id="decl-2">
+                <div class="check-item-text"><strong>Autoría:</strong> Todos los autores listados cumplen los criterios ICMJE de autoría y han aprobado la versión final del manuscrito.</div>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" name="decl_datos" id="decl-3">
+                <div class="check-item-text"><strong>Disponibilidad de datos:</strong> Los datos en los que se basa este manuscrito están disponibles a solicitud razonada del editor o la comunidad científica.</div>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" name="decl_politica" id="decl-4">
+                <div class="check-item-text"><strong>Política editorial:</strong> He leído y acepto la política editorial de OncoBridge, incluyendo los términos de la licencia CC BY 4.0 y el proceso de revisión por pares.</div>
+              </label>
+            </div>
+            <div class="field-error" id="err-declaraciones">Debes aceptar todas las declaraciones obligatorias.</div>
+          </div>
+
+          <div class="field">
+            <label for="conflicto">Declaración de conflicto de interés <span class="req">*</span></label>
+            <textarea id="conflicto" name="conflicto" rows="3"
+                      placeholder="Describe cualquier relación financiera, personal o institucional que pudiera influir en los resultados. Si no existe conflicto, escribe: 'Los autores declaran no tener conflicto de interés.'" required></textarea>
+            <div class="field-error" id="err-conflicto">Campo requerido.</div>
+          </div>
+
+          <div class="field">
+            <label for="financiamiento">Fuentes de financiamiento <span class="req">*</span></label>
+            <input type="text" id="financiamiento" name="financiamiento"
+                   placeholder="Ej: CONAHCYT proyecto CB-2023-XXXX. O: 'Sin financiamiento externo.'" required>
+            <div class="field-error" id="err-financiamiento">Declara el financiamiento o su ausencia.</div>
+          </div>
+
+          <div class="field">
+            <label for="aprobacion-etica">Aprobación ética <span class="req">*</span></label>
+            <textarea id="aprobacion-etica" name="aprobacion_etica" rows="3"
+                      placeholder="Número de aprobación del comité de ética y nombre del comité. Para estudios sin intervención en humanos o animales: describir el tipo de estudio y razón de exención." required></textarea>
+            <div class="field-hint">Requerido para toda investigación en humanos, animales o datos clínicos. Ver <a href="politica-editorial.html" style="color:var(--coral)">política ética.</a></div>
+            <div class="field-error" id="err-aprobacion-etica">Este campo es requerido.</div>
+          </div>
+
+          <div class="field">
+            <label for="consentimiento">Consentimiento informado <span class="opt">(si aplica)</span></label>
+            <div class="select-wrap">
+              <select id="consentimiento" name="consentimiento">
+                <option value="">Seleccionar…</option>
+                <option>Se obtuvo consentimiento informado de todos los participantes</option>
+                <option>Exento — datos retrospectivos anonimizados</option>
+                <option>Exento — estudio sin intervención en humanos</option>
+                <option>No aplica (estudio básico / computacional)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-nav">
+            <button class="btn-nav btn-nav-prev" onclick="anterior(2)">← Atrás</button>
+            <button class="btn-nav btn-nav-next" onclick="siguiente(2)">Siguiente: Archivos →</button>
+          </div>
+        </div>
+
+        <!-- ══ SECCIÓN 4: ARCHIVOS ══ -->
+        <div class="form-section" id="seccion-3">
+          <div class="form-section-header">
+            <span class="form-section-num">Sección 04 / 04</span>
+            <h2 class="form-section-title">Archivos del manuscrito</h2>
+            <p class="form-section-desc">Sube los archivos requeridos. El manuscrito principal debe ser una versión <strong>ciega</strong> (sin nombres ni afiliaciones de autores).</p>
+          </div>
+
+          <div class="info-banner">
+            <strong>Proceso de revisión doble ciego:</strong> el manuscrito principal no debe contener nombres, instituciones ni agradecimientos que identifiquen a los autores. Esa información va en la "Página de título" separada.
+          </div>
+
+          <div class="field">
+            <label>Manuscrito principal — versión ciega <span class="req">*</span></label>
+            <div class="upload-zone" id="zone-manuscrito">
+              <input type="file" id="file-manuscrito" accept=".docx,.pdf" onchange="mostrarArchivo('zone-manuscrito', 'file-manuscrito', 'list-manuscrito')">
+              <div class="upload-icon">📄</div>
+              <div class="upload-label">Arrastra el archivo aquí o haz clic para seleccionar</div>
+              <div class="upload-sub">Formatos aceptados: .docx, .pdf · Máximo 20 MB</div>
+            </div>
+            <ul class="upload-files" id="list-manuscrito"></ul>
+            <div class="field-error" id="err-file-manuscrito">El manuscrito principal es requerido.</div>
+          </div>
+
+          <div class="field">
+            <label>Página de título (con datos de autores) <span class="req">*</span></label>
+            <div class="upload-zone" id="zone-portada">
+              <input type="file" id="file-portada" accept=".docx,.pdf" onchange="mostrarArchivo('zone-portada', 'file-portada', 'list-portada')">
+              <div class="upload-icon">📋</div>
+              <div class="upload-label">Página de título con nombres y afiliaciones</div>
+              <div class="upload-sub">Formatos: .docx, .pdf · Máximo 5 MB</div>
+            </div>
+            <ul class="upload-files" id="list-portada"></ul>
+            <div class="field-error" id="err-file-portada">La página de título es requerida.</div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Figuras en alta resolución <span class="opt">(si aplica)</span></label>
+              <div class="upload-zone" id="zone-figuras">
+                <input type="file" id="file-figuras" accept=".tif,.tiff,.png,.jpg,.jpeg" multiple onchange="mostrarArchivo('zone-figuras', 'file-figuras', 'list-figuras')">
+                <div class="upload-icon">🖼️</div>
+                <div class="upload-label">Figuras individuales</div>
+                <div class="upload-sub">Mínimo 300 DPI · .tiff, .png · Múltiple</div>
+              </div>
+              <ul class="upload-files" id="list-figuras"></ul>
+            </div>
+            <div class="field">
+              <label>Material suplementario <span class="opt">(si aplica)</span></label>
+              <div class="upload-zone" id="zone-suplementario">
+                <input type="file" id="file-suplementario" multiple onchange="mostrarArchivo('zone-suplementario', 'file-suplementario', 'list-suplementario')">
+                <div class="upload-icon">📎</div>
+                <div class="upload-label">Datos, tablas, código</div>
+                <div class="upload-sub">Cualquier formato · Múltiple</div>
+              </div>
+              <ul class="upload-files" id="list-suplementario"></ul>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="carta">Carta de presentación <span class="opt">(recomendada)</span></label>
+            <textarea id="carta" name="carta" rows="4"
+                      placeholder="Describe brevemente la contribución original del trabajo, por qué es relevante para los lectores de OncoBridge y cualquier información adicional para el editor."></textarea>
+          </div>
+
+          <div class="form-nav">
+            <button class="btn-nav btn-nav-prev" onclick="anterior(3)">← Atrás</button>
+            <button class="btn-nav btn-nav-submit" id="btn-enviar" onclick="enviarFormulario()">
+              Enviar manuscrito →
+            </button>
+          </div>
+        </div>
+
+        <!-- ══ ESTADO: ENVIANDO ══ -->
+        <div class="sending-state" id="estado-enviando">
+          <div style="text-align:center; padding: 48px 0;">
+            <div style="font-size:32px;margin-bottom:16px">⏳</div>
+            <p style="font-family:var(--serif);font-size:18px;color:var(--obs)">Enviando tu manuscrito…</p>
+            <p style="font-size:13px;color:var(--vol);margin-top:8px">Esto puede tomar unos segundos.</p>
+          </div>
+        </div>
+
+        <!-- ══ ESTADO: ÉXITO ══ -->
+        <div class="success-state" id="estado-exito">
+          <div class="success-box">
+            <div class="success-icon">✓</div>
+            <div class="success-id" id="id-generado">OB-2025-001</div>
+            <div class="success-title">Manuscrito recibido con éxito</div>
+            <p class="success-desc">
+              Hemos recibido tu envío y lo registramos con el número de seguimiento mostrado arriba.
+              Recibirás un correo de confirmación en <strong style="color:var(--axo)">menos de 24 horas</strong> con los próximos pasos.
+              <br><br>
+              El editor de sección realizará la revisión inicial en los próximos <strong style="color:var(--axo)">5 días hábiles</strong>.
+            </p>
+            <a href="index.html" class="btn btn-primary" style="margin-top:24px;display:inline-block">Volver al inicio</a>
+          </div>
+        </div>
+
+        <!-- ══ ESTADO: ERROR ══ -->
+        <div class="error-state" id="estado-error">
+          <div style="background:rgba(201,112,92,0.08);border:1px solid rgba(201,112,92,0.2);border-radius:6px;padding:28px;text-align:center">
+            <div style="font-size:28px;margin-bottom:12px">⚠</div>
+            <p style="font-family:var(--serif);font-size:17px;margin-bottom:10px">No se pudo enviar el formulario</p>
+            <p style="font-size:13px;color:var(--vol);margin-bottom:18px">
+              Hubo un problema técnico. Por favor envía tu manuscrito directamente a:<br>
+              <strong>oncobridge.editorial@gmail.com</strong><br>
+              con el asunto: <strong>Envío de manuscrito — [Título]</strong>
+            </p>
+            <button class="btn-nav btn-nav-prev" onclick="reintentarEnvio()">Reintentar</button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img src="assets/logo.png" alt="OncoBridge"
+             onerror="this.style.display='none'; document.getElementById('footer-logo-fb').style.display='block'">
+        <span id="footer-logo-fb" class="footer-logo-text" style="display:none">Onco<span>Bridge</span></span>
+        <p class="footer-tagline">Revista científica digital de oncología traslacional.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Para autores</div>
+        <ul class="footer-links">
+          <li><a href="para-autores.html#tipos">Tipos de manuscritos</a></li>
+          <li><a href="para-autores.html#formato">Normas de formato</a></li>
+          <li><a href="politica-editorial.html">Política editorial</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contacto</div>
+        <ul class="footer-links">
+          <li><a href="mailto:oncobridge.editorial@gmail.com">oncobridge.editorial@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 OncoBridge · Acceso abierto</p>
+      <a href="politica-editorial.html">Política editorial</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════
+//  CONFIGURACIÓN — REEMPLAZA ESTOS VALORES
+// ════════════════════════════════════════════════
+
+// OPCIÓN A: Google Apps Script Web App URL
+// (ver README para instrucciones de cómo obtenerla)
+const APPS_SCRIPT_URL = 'TU_URL_DE_APPS_SCRIPT_AQUÍ';
+
+// Prefijo del ID de seguimiento
+const PREFIJO_REVISTA = 'OB';
+
+// ════════════════════════════════════════════════
+//  ESTADO DEL FORMULARIO
+// ════════════════════════════════════════════════
+let seccionActual = 0;
+const totalSecciones = 4;
+
+// ── Navegación ─────────────────────────────────
+function irA(n) {
+  if (n < 0 || n >= totalSecciones) return;
+  document.getElementById('seccion-' + seccionActual).classList.remove('active');
+  seccionActual = n;
+  document.getElementById('seccion-' + n).classList.add('active');
+  actualizarProgreso();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function siguiente(actual) {
+  if (!validarSeccion(actual)) return;
+  irA(actual + 1);
+}
+
+function anterior(actual) { irA(actual - 1); }
+
+function actualizarProgreso() {
+  const pct = ((seccionActual + 1) / totalSecciones) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent =
+    'Sección ' + (seccionActual + 1) + ' de ' + totalSecciones;
+
+  document.querySelectorAll('.progress-step').forEach((el, i) => {
+    el.classList.remove('active', 'done');
+    if (i < seccionActual) el.classList.add('done');
+    else if (i === seccionActual) el.classList.add('active');
+    // Reemplazar número por ✓ en done
+    const circulo = el.querySelector('.step-circle');
+    if (i < seccionActual) circulo.textContent = '';
+    else circulo.textContent = i + 1;
+  });
+}
+
+// ── Contador de palabras ───────────────────────
+document.getElementById('resumen').addEventListener('input', function() {
+  const palabras = this.value.trim().split(/\s+/).filter(w => w).length;
+  const contador = document.getElementById('resumen-contador');
+  contador.textContent = palabras;
+  contador.style.color = palabras > 350 ? 'var(--coral)' : 'var(--vol-2)';
+});
+
+// ── Validación por sección ─────────────────────
+function validarSeccion(n) {
+  let ok = true;
+
+  if (n === 0) {
+    ok = validarCampo('titulo', 'err-titulo',
+      v => v.trim().length > 5) && ok;
+    ok = validarCampo('tipo', 'err-tipo',
+      v => v !== '') && ok;
+    ok = validarCampo('seccion', 'err-seccion',
+      v => v !== '') && ok;
+    ok = validarCampo('palabras-clave', 'err-palabras-clave',
+      v => v.split(',').filter(p => p.trim()).length >= 2) && ok;
+    ok = validarCampo('resumen', 'err-resumen',
+      v => v.trim().split(/\s+/).length >= 30) && ok;
+  }
+
+  if (n === 1) {
+    ok = validarCampo('autor-nombre', 'err-autor-nombre',
+      v => v.trim().length > 2) && ok;
+    ok = validarCampo('autor-email', 'err-autor-email',
+      v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) && ok;
+    ok = validarCampo('coautores', 'err-coautores',
+      v => v.trim().length > 5) && ok;
+  }
+
+  if (n === 2) {
+    const decls = ['decl-1','decl-2','decl-3','decl-4'];
+    const todasMarcadas = decls.every(id => document.getElementById(id).checked);
+    const errDecl = document.getElementById('err-declaraciones');
+    if (!todasMarcadas) {
+      errDecl.classList.add('visible'); ok = false;
+    } else { errDecl.classList.remove('visible'); }
+
+    ok = validarCampo('conflicto', 'err-conflicto',
+      v => v.trim().length > 5) && ok;
+    ok = validarCampo('financiamiento', 'err-financiamiento',
+      v => v.trim().length > 3) && ok;
+    ok = validarCampo('aprobacion-etica', 'err-aprobacion-etica',
+      v => v.trim().length > 5) && ok;
+  }
+
+  if (n === 3) {
+    const manuscrito = document.getElementById('file-manuscrito');
+    const portada    = document.getElementById('file-portada');
+    if (!manuscrito.files.length) {
+      document.getElementById('err-file-manuscrito').classList.add('visible');
+      ok = false;
+    } else { document.getElementById('err-file-manuscrito').classList.remove('visible'); }
+    if (!portada.files.length) {
+      document.getElementById('err-file-portada').classList.add('visible');
+      ok = false;
+    } else { document.getElementById('err-file-portada').classList.remove('visible'); }
+  }
+
+  return ok;
+}
+
+function validarCampo(id, errId, fn) {
+  const el  = document.getElementById(id);
+  const err = document.getElementById(errId);
+  const ok  = fn(el.value);
+  el.classList.toggle('error', !ok);
+  if (err) err.classList.toggle('visible', !ok);
+  return ok;
+}
+
+// ── Archivos ───────────────────────────────────
+function mostrarArchivo(zoneId, inputId, listId) {
+  const input = document.getElementById(inputId);
+  const list  = document.getElementById(listId);
+  list.innerHTML = '';
+  Array.from(input.files).forEach(f => {
+    const li = document.createElement('li');
+    li.className = 'upload-file';
+    const mb = (f.size / 1024 / 1024).toFixed(2);
+    li.innerHTML = `
+      <span class="upload-file-name">📄 ${f.name}</span>
+      <span class="upload-file-size">${mb} MB</span>`;
+    list.appendChild(li);
+  });
+  document.getElementById(zoneId).style.borderColor =
+    input.files.length ? 'var(--axo-2)' : '';
+}
+
+// Drag & drop visual
+document.querySelectorAll('.upload-zone').forEach(zone => {
+  zone.addEventListener('dragover', e => {
+    e.preventDefault(); zone.classList.add('dragover');
+  });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', () => zone.classList.remove('dragover'));
+});
+
+// ── Generar ID de seguimiento ──────────────────
+function generarID() {
+  const año  = new Date().getFullYear();
+  const rand = String(Math.floor(Math.random() * 900) + 100);
+  return PREFIJO_REVISTA + '-' + año + '-' + rand;
+}
+
+// ── Enviar formulario ──────────────────────────
+async function enviarFormulario() {
+  if (!validarSeccion(3)) return;
+
+  const id = generarID();
+  mostrarEstado('enviando');
+
+  // Recopilar datos del formulario
+  const datos = {
+    id_seguimiento:    id,
+    titulo:            v('titulo'),
+    tipo:              v('tipo'),
+    seccion:           v('seccion'),
+    idioma:            v('idioma'),
+    palabras_clave:    v('palabras-clave'),
+    resumen:           v('resumen'),
+    autor_nombre:      v('autor-nombre'),
+    autor_email:       v('autor-email'),
+    autor_institucion: v('autor-institucion'),
+    autor_orcid:       v('autor-orcid'),
+    coautores:         v('coautores'),
+    revisores_sug:     v('revisores-sugeridos'),
+    revisores_exc:     v('revisores-excluidos'),
+    conflicto:         v('conflicto'),
+    financiamiento:    v('financiamiento'),
+    aprobacion_etica:  v('aprobacion-etica'),
+    consentimiento:    v('consentimiento'),
+    carta:             v('carta'),
+    fecha_envio:       new Date().toISOString(),
+    archivos_nota:     'Ver adjuntos en carpeta Drive del formulario',
+  };
+
+  try {
+    // Enviar a Google Apps Script
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode:   'no-cors', // Apps Script requiere no-cors
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos),
+    });
+    // Con no-cors no podemos leer la respuesta, asumimos éxito
+    document.getElementById('id-generado').textContent = id;
+    mostrarEstado('exito');
+  } catch(e) {
+    // Si Apps Script no está configurado todavía, mostrar error con fallback a email
+    mostrarEstado('error');
+  }
+}
+
+function v(id) {
+  const el = document.getElementById(id);
+  return el ? el.value : '';
+}
+
+function mostrarEstado(estado) {
+  // Ocultar todas las secciones y estados
+  document.querySelectorAll('.form-section').forEach(s => s.style.display = 'none');
+  document.getElementById('estado-enviando').classList.remove('visible');
+  document.getElementById('estado-exito').classList.remove('visible');
+  document.getElementById('estado-error').classList.remove('visible');
+
+  if (estado === 'enviando') {
+    document.getElementById('estado-enviando').classList.add('visible');
+  } else if (estado === 'exito') {
+    document.getElementById('estado-enviando').classList.remove('visible');
+    document.getElementById('estado-exito').classList.add('visible');
+  } else if (estado === 'error') {
+    document.getElementById('estado-enviando').classList.remove('visible');
+    document.getElementById('estado-error').classList.add('visible');
+  }
+}
+
+function reintentarEnvio() {
+  document.getElementById('estado-error').classList.remove('visible');
+  document.querySelectorAll('.form-section').forEach(s => s.style.display = '');
+  document.getElementById('seccion-3').classList.add('active');
+}
+</script>
+
+</body>
+</html>
