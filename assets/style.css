@@ -153,17 +153,118 @@ button { font-family: var(--sans); cursor: pointer; border: none; }
 .stat-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--vol-2); }
 
 /* ── Secciones temáticas ──────────────────────────────────────── */
-.scope-grid { display: grid; grid-template-columns: 300px 1fr; gap: 56px; align-items: start; }
-.scope-sticky { position: sticky; top: 80px; }
-.scope-heading { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ivory); line-height: 1.35; }
-.scope-heading span { color: var(--axo); font-style: italic; }
-.scope-desc { font-size: 13px; color: var(--vol-2); line-height: 1.75; margin-top: 14px; }
-.scope-areas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.scope-item { background: var(--obs-3); border: 1px solid rgba(200,195,188,0.09); padding: 16px 18px; border-radius: var(--r); transition: border-color var(--tr); }
-.scope-item:hover { border-color: rgba(232,196,192,0.2); }
-.scope-roman { font-family: var(--mono); font-size: 10px; color: var(--axo-3); letter-spacing: 0.08em; display: block; margin-bottom: 6px; }
-.scope-name { font-size: 13px; color: var(--ivory); font-weight: 500; margin-bottom: 5px; line-height: 1.3; }
-.scope-sub { font-size: 11px; color: var(--vol-2); line-height: 1.55; }
+
+/* Layout Base (Escritorio) */
+.scope-grid { 
+  display: grid; 
+  grid-template-columns: 300px 1fr; 
+  gap: 56px; 
+  align-items: start; 
+}
+
+.scope-sticky { 
+  position: sticky; 
+  top: 80px; 
+  z-index: 5; /* Asegura que no quede detrás de otros elementos */
+}
+
+.scope-heading { 
+  font-family: var(--serif); 
+  font-size: 22px; 
+  font-weight: 400; 
+  color: var(--ivory); 
+  line-height: 1.35; 
+}
+
+.scope-heading span { 
+  color: var(--axo); 
+  font-style: italic; 
+}
+
+.scope-desc { 
+  font-size: 13px; 
+  color: var(--vol-2); 
+  line-height: 1.75; 
+  margin-top: 14px; 
+}
+
+.scope-areas { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 12px; 
+}
+
+.scope-item { 
+  background: var(--obs-3); 
+  border: 1px solid rgba(200,195,188,0.09); 
+  padding: 16px 18px; 
+  border-radius: var(--r); 
+  transition: border-color var(--tr); 
+}
+
+.scope-item:hover { 
+  border-color: rgba(232,196,192,0.2); 
+}
+
+.scope-roman { 
+  font-family: var(--mono); 
+  font-size: 10px; 
+  color: var(--axo-3); 
+  letter-spacing: 0.08em; 
+  display: block; 
+  margin-bottom: 6px; 
+}
+
+.scope-name { 
+  font-size: 13px; 
+  color: var(--ivory); 
+  font-weight: 500; 
+  margin-bottom: 5px; 
+  line-height: 1.3; 
+}
+
+.scope-sub { 
+  font-size: 11px; 
+  color: var(--vol-2); 
+  line-height: 1.55; 
+}
+
+/* ── Ajustes para Móviles y Tablets (Responsivo) ─────────────── */
+
+@media (max-width: 1024px) {
+  /* Cambia la cuadrícula a una sola columna */
+  .scope-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  /* Elimina la transparencia del bloque pegajoso al hacer scroll */
+  .scope-sticky {
+    position: sticky;
+    top: 0; /* Se pega al borde superior del navegador */
+    background-color: var(--obs-1); /* Color sólido (Obsidiana) para tapar lo de abajo */
+    padding: 20px 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* Agrega un degradado para que las categorías se desvanezcan al subir */
+  .scope-sticky::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--obs-1), transparent);
+    pointer-events: none;
+  }
+
+  /* Ajusta las áreas a una sola columna en pantallas muy pequeñas */
+  .scope-areas {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* ── Proceso editorial ────────────────────────────────────────── */
 .process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-top: 12px; }
