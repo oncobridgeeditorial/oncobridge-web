@@ -52,7 +52,7 @@
       <img class="hero-brand-img" src="assets/logo.png" alt="OncoBridge — Ajolote"
            onerror="this.style.opacity='0'">
       <div class="hero-brand-name">OncoBridge</div>
-      <div class="hero-brand-sub">Revista Ditial de Oncología Traslacional</div>
+      <div class="hero-brand-sub">Revista Digital de Oncología Traslacional</div>
     </div>
   </div>
 </section>
@@ -60,10 +60,22 @@
 <!-- STATS -->
 <div class="stats">
   <div class="container">
-    <div class="stat"><span class="stat-num">2</span><span class="stat-label">Números publicados</span></div>
-    <div class="stat"><span class="stat-num">23</span><span class="stat-label">Artículos con DOI</span></div>
-    <div class="stat"><span class="stat-num">14 d</span><span class="stat-label">Tiempo medio decisión</span></div>
-    <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Acceso abierto</span></div>
+    <div class="stat">
+      <span class="stat-num" id="stat-numeros">—</span>
+      <span class="stat-label">Números publicados</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-articulos">—</span>
+      <span class="stat-label">Artículos con DOI</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-tiempo">—</span>
+      <span class="stat-label">Tiempo medio decisión</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-acceso">100%</span>
+      <span class="stat-label">Acceso abierto</span>
+    </div>
   </div>
 </div>
 
@@ -72,9 +84,14 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Últimos artículos publicados</h2>
-      <a href="#" class="section-link">Ver todos los artículos →</a>
+      <a href="articulos.html" class="section-link">Ver todos →</a>
     </div>
-    <div class="articles-grid">
+    <div class="articles-grid" id="articulos-grid">
+      <!-- El JavaScript inserta las tarjetas aquí -->
+      <div class="card-loading">Cargando artículos…</div>
+    </div>
+  </div>
+</section>
 
       <!-- DESTACADO -->
       <div class="card card-featured">
@@ -121,6 +138,43 @@
     </div>
   </div>
 </section>
+  <!-- VISOR PDF (oculto hasta que el usuario hace clic en un artículo) -->
+<div id="visor-overlay" style="display:none">
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="pdf-viewer">
+        <div class="pdf-toolbar">
+          <div class="pdf-toolbar-left">
+            <span class="pdf-id" id="visor-id"></span>
+            <span class="pdf-title" id="visor-titulo"></span>
+          </div>
+          <div class="pdf-toolbar-right">
+            <a id="visor-doi-link" href="#" target="_blank" class="pdf-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              DOI / Zenodo
+            </a>
+            <a id="visor-pdf-link" href="#" target="_blank" class="pdf-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Descargar PDF
+            </a>
+            <button class="pdf-btn pdf-btn-close" onclick="cerrarVisor()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Cerrar
+            </button>
+          </div>
+        </div>
+        <div class="pdf-embed">
+          <iframe id="visor-iframe" src="" title="Visor de artículo OncoBridge"
+                  allow="fullscreen" loading="lazy"></iframe>
+          <div class="pdf-fallback" id="visor-fallback" style="display:none">
+            <p>No se puede mostrar la vista previa en este navegador.</p>
+            <a id="visor-fallback-link" href="#" target="_blank" class="btn btn-primary btn-sm">Abrir PDF en nueva pestaña</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 
 <!-- SECCIONES TEMÁTICAS -->
 <section class="section section-dark" id="secciones">
@@ -145,8 +199,8 @@
         </div>
         <div class="scope-item">
           <span class="scope-roman">II</span>
-          <div class="scope-name">Imagenología, Intervencionismo y Teranóstica</div>
-          <div class="scope-sub">Radiología oncológica, medicina nuclear y patologia clinica.</div>
+          <div class="scope-name">Radiología, Patología y Teranóstica</div>
+          <div class="scope-sub">Radiología oncológica, medicina nuclear y patologia.</div>
         </div>
         <div class="scope-item">
           <span class="scope-roman">III</span>
@@ -281,11 +335,144 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 OncoBridge · Todos los artículos son de acceso abierto</p>
+      <p>© 2026 OncoBridge · Todos los artículos son de acceso abierto</p>
       <a href="politica-editorial.html">Política editorial y privacidad</a>
     </div>
   </div>
 </footer>
-
+<!-- =====================================================
+     JAVASCRIPT DINÁMICO
+     Lee articulos.json → llena grid + stats + visor PDF
+     ===================================================== -->
+<script>
+// ── Cargar y renderizar artículos ──────────────────────
+async function inicializar() {
+  try {
+    const res  = await fetch('articulos.json');
+    const arts = await res.json();
+    renderStats(arts);
+    renderArticulos(arts);
+  } catch(e) {
+    // Si no existe el JSON todavía, muestra el HTML de ejemplo
+    document.querySelector('.card-loading').remove();
+  }
+}
+ 
+// ── Stats automáticas ──────────────────────────────────
+function renderStats(arts) {
+  const total    = arts.length;
+  const numeros  = new Set(arts.map(a => a.volumen).filter(Boolean)).size || 1;
+  const tiempos  = arts.filter(a => a.dias_decision).map(a => a.dias_decision);
+  const mediaDias = tiempos.length
+    ? Math.round(tiempos.reduce((s,v) => s + v, 0) / tiempos.length)
+    : 14;
+ 
+  // Animación de conteo
+  animarContador('stat-numeros',  0, numeros,   800);
+  animarContador('stat-articulos',0, total,    1000);
+  animarContador('stat-tiempo',   0, mediaDias, 800, ' d');
+}
+ 
+function animarContador(id, desde, hasta, duracion, sufijo = '') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const inicio = performance.now();
+  function tick(ahora) {
+    const t = Math.min((ahora - inicio) / duracion, 1);
+    const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+    el.textContent = Math.round(desde + (hasta - desde) * ease) + sufijo;
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+ 
+// ── Renderizar tarjetas de artículos ──────────────────
+function renderArticulos(arts) {
+  const grid = document.getElementById('articulos-grid');
+  if (!grid) return;
+ 
+  // Orden: destacado primero, luego por fecha descendente
+  const ordenados = [...arts].sort((a, b) => {
+    if (b.destacado !== a.destacado) return (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0);
+    return new Date(b.fecha) - new Date(a.fecha);
+  });
+ 
+  // Mostrar máximo 5 en el home (1 destacado + 4 normales)
+  const visibles = ordenados.slice(0, 5);
+  grid.innerHTML = visibles.map(a => tarjetaHTML(a)).join('');
+}
+ 
+function tarjetaHTML(a) {
+  const featured = a.destacado;
+  const tagColor = {
+    'IA y Bioinformática': 'tag-ia',
+    'Prueba de Concepto':  'tag-poc',
+    'Oncología Molecular': 'tag-onco',
+  }[a.seccion] || '';
+ 
+  return `
+  <div class="card ${featured ? 'card-featured' : ''}">
+    <div>
+      <div class="card-meta">
+        <span class="tag ${featured ? 'tag-dark' : ''}">${a.tipo}</span>
+        <span class="tag ${tagColor}">${a.seccion}</span>
+        <span class="card-id">${a.id}</span>
+      </div>
+      <div class="card-title">${a.titulo}</div>
+      <div class="card-authors">${a.autores}</div>
+      <div class="card-abstract">${a.abstract}</div>
+      <div class="card-actions">
+        <button class="btn-ver-pdf" onclick='abrirVisor(${JSON.stringify(a)})'>
+          Ver artículo
+        </button>
+        <a class="btn-doi" href="${a.url_doi}" target="_blank" rel="noopener">
+          ${a.doi}
+        </a>
+      </div>
+    </div>
+    ${featured ? '<div><span class="featured-flag">Artículo destacado</span></div>' : ''}
+  </div>`;
+}
+ 
+// ── Visor PDF ──────────────────────────────────────────
+function abrirVisor(articulo) {
+  const overlay = document.getElementById('visor-overlay');
+  document.getElementById('visor-id').textContent     = articulo.id;
+  document.getElementById('visor-titulo').textContent = articulo.titulo;
+  document.getElementById('visor-doi-link').href      = articulo.url_doi || '#';
+  document.getElementById('visor-pdf-link').href      = articulo.url_pdf  || '#';
+  document.getElementById('visor-fallback-link').href = articulo.url_pdf  || '#';
+ 
+  const iframe = document.getElementById('visor-iframe');
+ 
+  if (articulo.url_pdf_embed) {
+    iframe.src = articulo.url_pdf_embed;
+    iframe.style.display = 'block';
+    document.getElementById('visor-fallback').style.display = 'none';
+  } else if (articulo.url_pdf) {
+    // Fallback: Google Docs viewer para PDFs directos
+    iframe.src = 'https://docs.google.com/viewer?url=' +
+                 encodeURIComponent(articulo.url_pdf) + '&embedded=true';
+    iframe.style.display = 'block';
+    document.getElementById('visor-fallback').style.display = 'none';
+  } else {
+    iframe.style.display = 'none';
+    document.getElementById('visor-fallback').style.display = 'flex';
+  }
+ 
+  overlay.style.display = 'block';
+  overlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+ 
+function cerrarVisor() {
+  document.getElementById('visor-overlay').style.display = 'none';
+  document.getElementById('visor-iframe').src = '';
+  document.getElementById('articulos').scrollIntoView({ behavior: 'smooth' });
+}
+ 
+// ── Arrancar ───────────────────────────────────────────
+inicializar();
+</script>
+ 
 </body>
 </html>
