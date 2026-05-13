@@ -15,6 +15,44 @@
   <meta property="og:url" content="https://oncobridge.site">
   <link rel="stylesheet" href="assets/style.css">
 </head>
+  // Carga artículos desde articulos.json y llena el grid
+async function cargarArticulos() {
+  try {
+    const res  = await fetch('articulos.json');
+    const arts = await res.json();
+    const grid = document.getElementById('articulos-grid');
+    if (!grid || !arts.length) return;
+
+    // Ordenar: destacado primero, luego por fecha
+    arts.sort((a,b) => (b.destacado - a.destacado) ||
+      new Date(b.fecha) - new Date(a.fecha));
+
+    grid.innerHTML = arts.map((a, i) => {
+      const featured = a.destacado;
+      return `
+      <div class="card ${featured ? 'card-featured' : ''}">
+        <div>
+          <div class="card-meta">
+            <span class="tag">${a.tipo}</span>
+            <span class="tag tag-ia">${a.seccion}</span>
+            <span class="card-id">${a.id}</span>
+          </div>
+          <div class="card-title">${a.titulo}</div>
+          <div class="card-authors">${a.autores}</div>
+          <div class="card-abstract">${a.abstract}</div>
+          <a class="card-doi" href="${a.url_doi}"
+             target="_blank">${a.doi}</a>
+        </div>
+        ${featured ? '<div><span class="featured-flag">Destacado</span></div>' : ''}
+      </div>`;
+    }).join('');
+  } catch(e) {
+    // Si falla, el HTML estático permanece
+    console.log('articulos.json no encontrado');
+  }
+}
+cargarArticulos();
+</script>
 <body>
 
 <!-- NAVEGACIÓN -->
