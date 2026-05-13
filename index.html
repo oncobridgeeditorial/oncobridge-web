@@ -5,57 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OncoBridge — Revista Digital de Oncología Traslacional</title>
   <meta name="description" content="Publicación científica de acceso abierto dedicada a la oncología traslacional. Revisión doble ciego, DOI permanente, acceso abierto. México y Latinoamérica.">
-  <!-- Scholar meta -->
   <meta name="citation_journal_title" content="OncoBridge">
   <meta name="citation_publisher" content="OncoBridge Editorial">
-  <!-- Open Graph -->
   <meta property="og:title" content="OncoBridge — Revista Digital de Oncología Traslacional">
   <meta property="og:description" content="Ciencia que cruza el puente del laboratorio a la clínica.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://oncobridge.site">
   <link rel="stylesheet" href="assets/style.css">
 </head>
-  <script>
-  // Carga artículos desde articulos.json y llena el grid
-async function cargarArticulos() {
-  try {
-    const res  = await fetch('articulos.json');
-    const arts = await res.json();
-    const grid = document.getElementById('articulos-grid');
-    if (!grid || !arts.length) return;
-
-    // Ordenar: destacado primero, luego por fecha
-    arts.sort((a,b) => (b.destacado - a.destacado) ||
-      new Date(b.fecha) - new Date(a.fecha));
-
-    grid.innerHTML = arts.map((a, i) => {
-      const featured = a.destacado;
-      return `
-      <div class="card ${featured ? 'card-featured' : ''}">
-        <div>
-          <div class="card-meta">
-            <span class="tag">${a.tipo}</span>
-            <span class="tag tag-ia">${a.seccion}</span>
-            <span class="card-id">${a.id}</span>
-          </div>
-          <div class="card-title">${a.titulo}</div>
-          <div class="card-authors">${a.autores}</div>
-          <div class="card-abstract">${a.abstract}</div>
-          <a class="card-doi" href="${a.url_doi}"
-             target="_blank">${a.doi}</a>
-        </div>
-        ${featured ? '<div><span class="featured-flag">Destacado</span></div>' : ''}
-      </div>`;
-    }).join('');
-  } catch(e) {
-    // Si falla, el HTML estático permanece
-    console.log('articulos.json no encontrado');
-  }
-}
-cargarArticulos();
-</script>
 <body>
-
+ 
 <!-- NAVEGACIÓN -->
 <nav class="nav">
   <div class="container">
@@ -70,17 +29,17 @@ cargarArticulos();
       <li><a href="index.html#secciones">Secciones</a></li>
       <li><a href="para-autores.html">Para autores</a></li>
       <li><a href="comite-editorial.html">Comité editorial</a></li>
-      <li><a href="para-autores.html#envio" class="nav-cta">Enviar manuscrito</a></li>
+      <li><a href="enviar-manuscrito.html" class="nav-cta">Enviar manuscrito</a></li>
     </ul>
   </div>
 </nav>
-
+ 
 <!-- HERO -->
 <section class="hero">
   <div class="container">
     <div class="hero-content">
       <div class="hero-eyebrow">Acceso abierto · Revisión doble ciego · Vancouver</div>
-      <h1>Revista Digital de Oncología Traslacional<br></h1>
+      <h1>Revista Digital de Oncología Traslacional</h1>
       <p class="hero-lead">OncoBridge cierra la brecha entre el laboratorio y la clínica. Facilitamos el diálogo transdisciplinario entre médicos, investigadores, científicos de datos y la próxima generación de líderes en salud oncológica de México y Latinoamérica.</p>
       <div class="hero-actions">
         <a href="index.html#articulos" class="btn btn-primary">Explorar artículos</a>
@@ -95,8 +54,8 @@ cargarArticulos();
     </div>
   </div>
 </section>
-
-<!-- STATS -->
+ 
+<!-- STATS — se llenan dinámicamente desde articulos.json -->
 <div class="stats">
   <div class="container">
     <div class="stat">
@@ -117,8 +76,8 @@ cargarArticulos();
     </div>
   </div>
 </div>
-
-<!-- ARTÍCULOS -->
+ 
+<!-- ARTÍCULOS — se llenan dinámicamente desde articulos.json -->
 <section class="section" id="articulos">
   <div class="container">
     <div class="section-header">
@@ -126,13 +85,12 @@ cargarArticulos();
       <a href="articulos.html" class="section-link">Ver todos →</a>
     </div>
     <div class="articles-grid" id="articulos-grid">
-      <!-- El JavaScript inserta las tarjetas aquí -->
       <div class="card-loading">Cargando artículos…</div>
     </div>
   </div>
 </section>
-  
-  <!-- VISOR PDF (oculto hasta que el usuario hace clic en un artículo) -->
+ 
+<!-- VISOR PDF -->
 <div id="visor-overlay" style="display:none">
   <section class="section" style="padding-top:0">
     <div class="container">
@@ -169,7 +127,7 @@ cargarArticulos();
     </div>
   </section>
 </div>
-
+ 
 <!-- SECCIONES TEMÁTICAS -->
 <section class="section section-dark" id="secciones">
   <div class="container">
@@ -230,7 +188,7 @@ cargarArticulos();
     </div>
   </div>
 </section>
-
+ 
 <!-- PROCESO EDITORIAL -->
 <section class="section section-warm">
   <div class="container">
@@ -242,7 +200,7 @@ cargarArticulos();
       <div class="step">
         <span class="step-num">01</span>
         <div class="step-title">Envío</div>
-        <div class="step-desc">Formulario en línea. Acuse de recibo automático con número de seguimiento OB-YYYY-NNN en menos de 24 horas.</div>
+        <div class="step-desc">Formulario integrado en el sitio. Acuse de recibo automático con número de seguimiento OB-YYYY-NNN en menos de 24 horas.</div>
         <div class="step-line"></div>
       </div>
       <div class="step">
@@ -265,7 +223,7 @@ cargarArticulos();
     </div>
   </div>
 </section>
-
+ 
 <!-- ONCOBRIDGE EN 3 MINUTOS -->
 <section class="three-min">
   <div class="container">
@@ -275,7 +233,7 @@ cargarArticulos();
         <h2>OncoBridge<br>en <em>3 Minutos</em></h2>
         <p>Cada artículo publicado tiene el potencial de convertirse en un video abstract diseñado para redes sociales. Llevamos la ciencia del PDF al mundo real: accesible, viral, con impacto más allá del índice de citaciones.</p>
         <p>Una herramienta de difusión para que tu investigación llegue a médicos, estudiantes y tomadores de decisiones en todo el mundo hispanohablante.</p>
-        <a href="para-autores.html#tipos" class="btn btn-primary" style="margin-top:8px">Conoce todos los formatos</a>
+        <a href="para-autores.html" class="btn btn-primary" style="margin-top:8px">Conoce todos los formatos</a>
       </div>
       <div class="three-min-visual">
         <div class="play-btn">
@@ -286,7 +244,7 @@ cargarArticulos();
     </div>
   </div>
 </section>
-
+ 
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
@@ -296,7 +254,7 @@ cargarArticulos();
              onerror="this.style.display='none'; document.getElementById('footer-logo-fallback').style.display='block'">
         <span id="footer-logo-fallback" class="footer-logo-text" style="display:none">Onco<span>Bridge</span></span>
         <p class="footer-tagline">Revista científica digital de oncología traslacional. Revisión por pares · Acceso abierto · DOI permanente.</p>
-        <div class="cc-badge" style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;background:rgba(200,195,188,0.07);border:1px solid rgba(200,195,188,0.12);border-radius:2px;padding:7px 12px;font-size:11px;color:var(--vol-2)">
+        <div style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;background:rgba(200,195,188,0.07);border:1px solid rgba(200,195,188,0.12);border-radius:2px;padding:7px 12px;font-size:11px;color:var(--vol-2)">
           CC BY 4.0 · Creative Commons
         </div>
       </div>
@@ -312,17 +270,17 @@ cargarArticulos();
       <div>
         <div class="footer-col-title">Para autores</div>
         <ul class="footer-links">
-          <li><a href="para-autores.html#tipos">Tipos de manuscritos</a></li>
-          <li><a href="para-autores.html#formato">Normas de formato</a></li>
-          <li><a href="para-autores.html#declaraciones">Declaraciones requeridas</a></li>
-          <li><a href="para-autores.html#envio">Enviar manuscrito</a></li>
+          <li><a href="para-autores.html">Tipos de manuscritos</a></li>
+          <li><a href="para-autores.html">Normas de formato</a></li>
+          <li><a href="para-autores.html">Declaraciones requeridas</a></li>
+          <li><a href="enviar-manuscrito.html">Enviar manuscrito</a></li>
         </ul>
       </div>
       <div>
         <div class="footer-col-title">Contacto</div>
         <ul class="footer-links">
           <li><a href="mailto:oncobridge.editorial@gmail.com">oncobridge.editorial@gmail.com</a></li>
-          <li><a href="para-autores.html#envio">Enviar manuscrito</a></li>
+          <li><a href="enviar-manuscrito.html">Enviar manuscrito</a></li>
           <li><a href="comite-editorial.html#unirse">Ser revisor</a></li>
           <li><a href="https://zenodo.org" target="_blank" rel="noopener">Zenodo Community</a></li>
         </ul>
@@ -334,12 +292,12 @@ cargarArticulos();
     </div>
   </div>
 </footer>
+ 
 <!-- =====================================================
      JAVASCRIPT DINÁMICO
      Lee articulos.json → llena grid + stats + visor PDF
      ===================================================== -->
 <script>
-// ── Cargar y renderizar artículos ──────────────────────
 async function inicializar() {
   try {
     const res  = await fetch('articulos.json');
@@ -347,21 +305,19 @@ async function inicializar() {
     renderStats(arts);
     renderArticulos(arts);
   } catch(e) {
-    // Si no existe el JSON todavía, muestra el HTML de ejemplo
-    document.querySelector('.card-loading').remove();
+    const loading = document.querySelector('.card-loading');
+    if (loading) loading.remove();
   }
 }
  
-// ── Stats automáticas ──────────────────────────────────
 function renderStats(arts) {
-  const total    = arts.length;
-  const numeros  = new Set(arts.map(a => a.volumen).filter(Boolean)).size || 1;
-  const tiempos  = arts.filter(a => a.dias_decision).map(a => a.dias_decision);
+  const total     = arts.length;
+  const numeros   = new Set(arts.map(a => a.volumen).filter(Boolean)).size || 1;
+  const tiempos   = arts.filter(a => a.dias_decision).map(a => a.dias_decision);
   const mediaDias = tiempos.length
-    ? Math.round(tiempos.reduce((s,v) => s + v, 0) / tiempos.length)
+    ? Math.round(tiempos.reduce((s, v) => s + v, 0) / tiempos.length)
     : 14;
  
-  // Animación de conteo
   animarContador('stat-numeros',  0, numeros,   800);
   animarContador('stat-articulos',0, total,    1000);
   animarContador('stat-tiempo',   0, mediaDias, 800, ' d');
@@ -372,7 +328,7 @@ function animarContador(id, desde, hasta, duracion, sufijo = '') {
   if (!el) return;
   const inicio = performance.now();
   function tick(ahora) {
-    const t = Math.min((ahora - inicio) / duracion, 1);
+    const t    = Math.min((ahora - inicio) / duracion, 1);
     const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
     el.textContent = Math.round(desde + (hasta - desde) * ease) + sufijo;
     if (t < 1) requestAnimationFrame(tick);
@@ -380,20 +336,16 @@ function animarContador(id, desde, hasta, duracion, sufijo = '') {
   requestAnimationFrame(tick);
 }
  
-// ── Renderizar tarjetas de artículos ──────────────────
 function renderArticulos(arts) {
   const grid = document.getElementById('articulos-grid');
   if (!grid) return;
  
-  // Orden: destacado primero, luego por fecha descendente
   const ordenados = [...arts].sort((a, b) => {
     if (b.destacado !== a.destacado) return (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0);
     return new Date(b.fecha) - new Date(a.fecha);
   });
  
-  // Mostrar máximo 5 en el home (1 destacado + 4 normales)
-  const visibles = ordenados.slice(0, 5);
-  grid.innerHTML = visibles.map(a => tarjetaHTML(a)).join('');
+  grid.innerHTML = ordenados.slice(0, 5).map(a => tarjetaHTML(a)).join('');
 }
  
 function tarjetaHTML(a) {
@@ -428,7 +380,6 @@ function tarjetaHTML(a) {
   </div>`;
 }
  
-// ── Visor PDF ──────────────────────────────────────────
 function abrirVisor(articulo) {
   const overlay = document.getElementById('visor-overlay');
   document.getElementById('visor-id').textContent     = articulo.id;
@@ -444,7 +395,6 @@ function abrirVisor(articulo) {
     iframe.style.display = 'block';
     document.getElementById('visor-fallback').style.display = 'none';
   } else if (articulo.url_pdf) {
-    // Fallback: Google Docs viewer para PDFs directos
     iframe.src = 'https://docs.google.com/viewer?url=' +
                  encodeURIComponent(articulo.url_pdf) + '&embedded=true';
     iframe.style.display = 'block';
@@ -464,7 +414,6 @@ function cerrarVisor() {
   document.getElementById('articulos').scrollIntoView({ behavior: 'smooth' });
 }
  
-// ── Arrancar ───────────────────────────────────────────
 inicializar();
 </script>
  
